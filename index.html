@@ -136,15 +136,10 @@
         </p>
 
         <form id="form" novalidate>
-          <label>First name <span class="req">*</span></label>
-          <input id="first" maxlength="100" aria-required="true" />
-          <div class="counter" id="c-first">0/100</div>
-          <div class="errText" id="e-first" hidden></div>
-
-          <label>Last name <span class="req">*</span></label>
-          <input id="last" maxlength="100" aria-required="true" />
-          <div class="counter" id="c-last">0/100</div>
-          <div class="errText" id="e-last" hidden></div>
+          <label>Name <span class="req">*</span></label>
+          <input id="name" maxlength="150" aria-required="true" />
+          <div class="counter" id="c-name">0/150</div>
+          <div class="errText" id="e-name" hidden></div>
 
           <label>Email <span class="req">*</span></label>
           <input id="email" type="email" maxlength="254" aria-required="true" />
@@ -184,19 +179,16 @@
     <script>
       const API_URL = "%%API_URL%%";
 
-      const NAME_MAX = 100,
+      const NAME_MAX = 150,
         EMAIL_MAX = 254;
       const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       const $ = (id) => document.getElementById(id);
-      const first = $("first"),
-        last = $("last"),
+      const name = $("name"),
         email = $("email");
-      const cFirst = $("c-first"),
-        cLast = $("c-last"),
+      const cName = $("c-name"),
         cEmail = $("c-email");
-      const eFirst = $("e-first"),
-        eLast = $("e-last"),
+      const eName = $("e-name"),
         eEmail = $("e-email");
       const btn = $("submit"),
         ok = $("alert-ok"),
@@ -220,29 +212,19 @@
       }
 
       function validate() {
-        const f = first.value.trim();
-        const l = last.value.trim();
+        const n = name.value.trim();
         const m = email.value.trim();
 
         let ok = true;
 
-        // first_name
-        if (!f) {
-          setErr(first, eFirst, "First name is required");
+        // name
+        if (!n) {
+          setErr(name, eName, "Name is required");
           ok = false;
-        } else if (f.length > NAME_MAX) {
-          setErr(first, eFirst, `Max ${NAME_MAX} characters`);
+        } else if (n.length > NAME_MAX) {
+          setErr(name, eName, `Max ${NAME_MAX} characters`);
           ok = false;
-        } else setErr(first, eFirst, "");
-
-        // last_name
-        if (!l) {
-          setErr(last, eLast, "Last name is required");
-          ok = false;
-        } else if (l.length > NAME_MAX) {
-          setErr(last, eLast, `Max ${NAME_MAX} characters`);
-          ok = false;
-        } else setErr(last, eLast, "");
+        } else setErr(name, eName, "");
 
         // email
         if (!m) {
@@ -260,12 +242,10 @@
       }
 
       ["input", "blur"].forEach((ev) => {
-        first.addEventListener(ev, () => count(first, cFirst, NAME_MAX));
-        last.addEventListener(ev, () => count(last, cLast, NAME_MAX));
+        name.addEventListener(ev, () => count(name, cName, NAME_MAX));
         email.addEventListener(ev, () => count(email, cEmail, EMAIL_MAX));
       });
-      count(first, cFirst, NAME_MAX);
-      count(last, cLast, NAME_MAX);
+      count(name, cName, NAME_MAX);
       count(email, cEmail, EMAIL_MAX);
 
       document.getElementById("form").addEventListener("submit", async (e) => {
@@ -286,8 +266,7 @@
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              first_name: first.value.trim(),
-              last_name: last.value.trim(),
+              name: name.value.trim(),
               email: email.value.trim().toLowerCase(),
             }),
           });
@@ -301,13 +280,10 @@
           ok.textContent = `Thanks! Your registration id is ${data.id || "(created)"}.Please check your email!!`;
           ok.hidden = false;
 
-          first.value = "";
-          last.value = "";
+          name.value = "";
           email.value = "";
-          [first, last, email].forEach((el) => el.classList.remove("err"));
-          [cFirst, cLast, cEmail].forEach((c) => (c.textContent = "0/0")); // will reset by count()
-          count(first, cFirst, NAME_MAX);
-          count(last, cLast, NAME_MAX);
+          [name, email].forEach((el) => el.classList.remove("err"));
+          count(name, cName, NAME_MAX);
           count(email, cEmail, EMAIL_MAX);
         } catch (ex) {
           err.textContent = ex.message || "Submit failed";
