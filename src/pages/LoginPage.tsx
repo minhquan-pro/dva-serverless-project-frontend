@@ -2,6 +2,8 @@ import { useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SectionHeading } from "../components/SectionHeading";
 import { Button } from "../components/Button";
+import { AuthTabs } from "../components/AuthTabs";
+import { AuthMeta } from "../components/AuthMeta";
 import { useAuth } from "../context/AuthContext";
 
 type SubmitStatus = "idle" | "loading" | "error";
@@ -49,6 +51,12 @@ export function LoginPage() {
   return (
     <section className="px-6 py-16 sm:px-7 sm:py-20">
       <div className="mx-auto max-w-md">
+        <span className="mb-6 inline-block border-[1.5px] border-red px-3.5 py-1 font-display text-xs font-extrabold uppercase tracking-wide text-red">
+          Thành viên · Quán nhà
+        </span>
+
+        <AuthTabs />
+
         <SectionHeading title="Đăng nhập" description="Nhập số điện thoại và mật khẩu để tiếp tục." />
 
         <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
@@ -91,6 +99,8 @@ export function LoginPage() {
             Đăng ký ngay
           </Link>
         </p>
+
+        <AuthMeta />
       </div>
     </section>
   );

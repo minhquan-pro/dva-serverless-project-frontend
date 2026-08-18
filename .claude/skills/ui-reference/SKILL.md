@@ -44,7 +44,7 @@ Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc tr
 3. **Menu** (`/thuc-don`) — nhóm nút lọc dạng khối viền liền nhau, danh sách món đánh số (`MenuRow`) — không phải lưới card.
 4. **About** (`/gioi-thieu`) — 2 cột: đoạn văn bên trái, lưới 2×2 chỉ số thống kê có viền bên phải.
 5. **Contact** (`/lien-he`) — nền `bg-ink` tối, thông tin dạng label/value, input chỉ có viền dưới (underline), nút submit đỏ vuông vức.
-6. **Login/Register** (`/dang-nhap`, `/dang-ky`) — khung hẹp căn giữa (`max-w-md`), nền sáng, input viền dưới (underline, `border-grid` → `focus:border-red`), `Button` full-width, link chuyển đổi giữa 2 trang màu đỏ gạch chân.
+6. **Login/Register** (`/dang-nhap`, `/dang-ky`) — khung hẹp căn giữa (`max-w-md`), tag viền đỏ "Thành viên · Quán nhà" phía trên, `AuthTabs` (2 nút dạng khối viền liền, tab trang hiện tại tô nền `ink`) để chuyển nhanh giữa 2 route, input viền dưới (underline, `border-grid` → `focus:border-red`), `Button` full-width, link chữ chuyển đổi giữa 2 trang màu đỏ gạch chân (giữ song song với tab, không thay thế), `AuthMeta` (giờ mở cửa/SĐT) đóng khung dưới cùng.
 7. **Account** (`/tai-khoan`) — lưới 2 cột viền (giống stat-grid của About) hiển thị tên/SĐT, nút "Đăng xuất" biến thể `line`.
 8. **Footer** — 2 dòng đơn giản, chữ hoa nhỏ, canh 2 đầu.
 
@@ -55,6 +55,8 @@ Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc tr
 - `MenuRow` (`src/components/MenuRow.tsx`) — 1 dòng thực đơn: số thứ tự + tên/mô tả + giá, dùng trong danh sách thay vì card.
 - `Layout` (`src/components/Layout.tsx`) — Header + `<Outlet/>` + Footer, bọc mọi route.
 - `ProtectedRoute` (`src/components/ProtectedRoute.tsx`) — redirect về `/dang-nhap` nếu `useAuth().isAuthenticated` false.
+- `AuthTabs` (`src/components/AuthTabs.tsx`) — tab `NavLink` chuyển giữa `/dang-nhap`/`/dang-ky`, dùng ở đầu 2 trang xác thực.
+- `AuthMeta` (`src/components/AuthMeta.tsx`) — dòng giờ mở cửa/SĐT ở cuối card xác thực, lấy từ `SHOP_INFO`.
 
 ## Khi gọi API (liên hệ/đặt món/xác thực)
 - Dùng chung axios instance ở `src/services/api.ts` với `baseURL` từ `import.meta.env.VITE_API_URL`.
