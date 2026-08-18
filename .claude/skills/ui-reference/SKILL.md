@@ -1,38 +1,50 @@
 ---
 name: ui-reference
-description: Tham khảo pattern giao diện chuyên nghiệp cho website bán đồ ăn/nhà hàng khi xây dựng section hoặc trang mới bằng React + Tailwind + Axios. Dùng khi cần bố cục Hero, Menu, About, Testimonial, Contact/Order, hoặc cấu trúc thư mục/tooling chuẩn cho dự án Vite+React+Tailwind.
+description: Hệ thống thiết kế "Phố Ẩm Thực" đã chốt cho website bán đồ ăn (bánh cuốn, bún chả) — dùng khi xây dựng section/trang/component mới bằng React + Tailwind để giữ đúng màu sắc, font, hình khối đã thống nhất với chủ shop.
 ---
 
-# UI Reference — Food/Restaurant Frontend
+# UI Reference — "Phố Ẩm Thực" Design System
 
-Tổng hợp pattern từ các repo React + Tailwind chuyên về nhà hàng/đồ ăn trên GitHub. Dùng để THAM KHẢO bố cục và cấu trúc — không copy nguyên code, viết lại cho phù hợp thương hiệu quán (bánh cuốn, bún chả).
+Đây là hệ thống thiết kế ĐÃ CHỐT (chọn từ 3 phương án brainstorm ngày trước) — không phải gợi ý chung chung. Mọi section/trang mới nên theo đúng token dưới đây để giao diện nhất quán. Nếu chủ shop muốn đổi hướng thiết kế khác, dùng skill `brainstorming` trước, sau đó cập nhật lại file này và `CLAUDE.md`.
 
-## Nguồn tham khảo
-- **themixlyweb/react-restaurant-website-template** — one-page React + Tailwind + Vite cho nhà hàng/quán ăn: Hero, About, Menu, Chefs, Contact.
-- **joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate** — cấu trúc chuẩn Vite + React 18 + TypeScript + Tailwind 3 + ESLint + Prettier + Vitest/Testing Library, có `.editorconfig`, issue templates.
-- **arnobt78/Restaurant-Food-Ordering-Management-System** (MERN) — tham khảo luồng đặt món/giỏ hàng/theo dõi đơn hàng full-stack nếu sau này quán cần đặt món online thay vì chỉ trang giới thiệu.
+## Token màu (định nghĩa tại `src/index.css` qua `@theme`)
+| Token | Hex | Vai trò |
+|---|---|---|
+| `ink` | `#241505` | Chữ chính, viền (border dày 2.5–3px) |
+| `cream` | `#fff4e3` | Nền chính |
+| `cream-deep` | `#ffeccb` | Gradient nền hero |
+| `card` | `#fffaf0` | Nền card/form |
+| `red` / `red-deep` | `#e14434` / `#b52f22` | Màu chủ đạo — CTA chính, section liên hệ |
+| `green` | `#2f6b4f` | Phụ — nav CTA, badge |
+| `yellow` | `#f4b400` | Phụ — tag, stat chip, icon nền |
 
-## Bố cục trang chủ khuyến nghị
-1. **Header** — logo, tên quán, nav (Trang chủ / Thực đơn / Giới thiệu / Liên hệ), nút CTA (Đặt hàng / Gọi ngay).
-2. **Hero** — ảnh món ăn nổi bật (bánh cuốn, bún chả), tagline, CTA chính, giờ mở cửa/địa chỉ rút gọn.
-3. **Menu** — danh sách món theo nhóm (Bánh cuốn / Bún chả / Đồ uống / Món thêm), ảnh + tên + giá, có thể có tab lọc theo nhóm.
-4. **About** — câu chuyện quán, điểm khác biệt (nguyên liệu, công thức gia truyền, thời gian mở bán...).
-5. **Testimonials** (tuỳ chọn) — đánh giá/phản hồi khách hàng.
-6. **Contact / Order** — form liên hệ hoặc đặt món, địa chỉ, bản đồ, giờ mở cửa, mạng xã hội/Zalo.
-7. **Footer** — thông tin liên hệ, mạng xã hội, bản quyền.
+Dùng trực tiếp qua class Tailwind: `bg-red`, `text-ink`, `border-ink`, v.v. — không hardcode mã hex trong component.
 
-## Quy ước component
-- Mỗi section lớn = 1 component trong `src/sections/`, nhận dữ liệu qua props hoặc import từ `src/data/`.
-- Ảnh món ăn: `aspect-ratio` cố định (vd `aspect-[4/3]`), `object-cover`, lazy-load (`loading="lazy"`), `alt` mô tả món.
-- Nút CTA chính dùng một màu nhấn nhất quán, định nghĩa trong `tailwind.config.js` (`theme.extend.colors`), không hardcode mã hex rải rác trong component.
-- Input/form cần label rõ ràng và trạng thái lỗi hiển thị inline (tham khảo pattern validate trong `index.html` cũ của repo: đếm ký tự, viền đỏ khi lỗi, thông báo lỗi dưới input).
+## Font
+- `font-display` → Baloo 2 (tiêu đề, nút, badge — bo tròn, đậm).
+- `font-sans` (mặc định `body`) → Nunito (nội dung, mô tả).
+- Cả hai load qua Google Fonts trong `index.html`.
 
-## Khi gọi API (đặt món / liên hệ)
-- Dùng chung một axios instance ở `src/services/api.ts` với `baseURL` từ `import.meta.env.VITE_API_URL`.
-- Mỗi nhóm chức năng có 1 file service riêng (vd `services/orderService.ts`) export các hàm gọi API, không gọi axios trực tiếp trong component.
-- Hiển thị rõ 3 trạng thái: đang gửi (loading, disable nút), thành công (thông báo xanh), lỗi (thông báo đỏ + message cụ thể) — theo đúng pattern try/catch/finally đã có sẵn trong `index.html` cũ.
+## Ngôn ngữ hình khối
+- Viền dày `border-[2.5px]` hoặc `border-[3px] border-ink` trên hầu hết card/button/badge.
+- Bo tròn lớn: `rounded-full` cho pill/button/badge tròn, `rounded-2xl`/`rounded-3xl` cho card/khối lớn.
+- Đổ bóng kiểu sticker (hard shadow, không blur): `shadow-[4px_4px_0_var(--color-ink)]`, hover thu nhỏ còn `shadow-[2px_2px_0_var(--color-ink)]` kèm dịch chuyển nhẹ — tạo cảm giác nhấn nút thật.
+- Badge/tag giá xoay nghiêng nhẹ: `rotate-2`, `-rotate-2`, `rotate-6` — tạo cảm giác tem dán tay, tránh mọi thứ đều thẳng hàng cứng nhắc.
+- Icon món ăn dùng emoji tròn nền màu theo nhóm (xem `MENU_CATEGORIES` trong `src/data/menu.ts`) thay cho ảnh chụp — quán chưa có ảnh thật, ưu tiên đồ hoạ/icon phẳng hơn là placeholder ảnh xám.
 
-## Tooling khuyến nghị khi scaffold dự án
-- Vite + React + TypeScript làm nền, thêm Tailwind CSS qua PostCSS.
-- ESLint + Prettier + EditorConfig để đồng bộ code style.
-- (Tuỳ chọn) Vitest + Testing Library nếu cần test component.
+## Bố cục các section (đã áp dụng, dùng làm mẫu khi thêm section mới)
+1. **Header** — sticky, viền dưới dày, logo có badge tròn emoji, nav pill, CTA nav màu `green`.
+2. **Hero** — nền gradient `cream → cream-deep`, badge pill thông tin nhanh (giờ mở cửa, địa chỉ), tiêu đề có từ khoá nổi bật trong khối `bg-red` xoay nghiêng, khối "tem tròn" (stamp) bên phải với 2 chip nổi, đường chéo `clip-path` ngăn cách hero với section sau.
+3. **Menu** — nền `bg-ink` (tối, tương phản với hero), tab lọc pill, card `bg-card` viền dày với icon tròn + tag giá nổi góc trên bo xoay nhẹ.
+4. **About** — 2 cột: khối minh hoạ màu `green` bo lớn đổ bóng cứng + nội dung kèm dãy "stat chip" màu `yellow`.
+5. **Contact** — nền `bg-red`, card `bg-card` viền dày đổ bóng lớn, input bo `rounded-xl` viền dày, nút submit dùng biến thể `dark` (nền `ink`, chữ `yellow`).
+6. **Footer** — nền `ink`, chữ `cream`, đơn giản.
+
+## Component dùng chung
+- `Button` (`src/components/Button.tsx`) — biến thể `primary` (đỏ), `secondary` (trắng), `accent` (xanh lá, dùng cho nav CTA), `dark` (nền ink/chữ vàng, dùng cho submit form).
+- `SectionHeading` (`src/components/SectionHeading.tsx`) — kicker dạng pill + tiêu đề Baloo 2, có `tone="light"` (nền sáng) và `tone="dark"` (nền tối như section Menu/Contact).
+
+## Khi gọi API (liên hệ/đặt món)
+- Dùng chung axios instance ở `src/services/api.ts` với `baseURL` từ `import.meta.env.VITE_API_URL`.
+- Mỗi nhóm chức năng có 1 file service riêng, không gọi axios trực tiếp trong component.
+- Hiển thị rõ 3 trạng thái loading/success/error — xem mẫu trong `src/sections/Contact.tsx`.

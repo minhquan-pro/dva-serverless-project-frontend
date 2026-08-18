@@ -34,4 +34,4 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 
 ## Trạng thái hiện tại
 
-Bản one-page: Hero, Thực đơn (dữ liệu mẫu, lọc theo nhóm), Giới thiệu, form Liên hệ (gửi qua Axios tới `VITE_API_URL`). Ảnh món ăn và thông tin quán trong `src/data/` đang là placeholder — cập nhật ảnh/tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng.
+Bản one-page: Hero, Thực đơn (dữ liệu mẫu, lọc theo nhóm), Giới thiệu, form Liên hệ (gửi qua Axios tới `VITE_API_URL`). Giao diện theo hệ thống thiết kế **"Phố Ẩm Thực"** (bo tròn, viền dày, đổ bóng cứng, tông đỏ/vàng/xanh lá — chi tiết tại `.claude/skills/ui-reference/SKILL.md`). Tên món/giá và thông tin quán trong `src/data/` đang là dữ liệu mẫu — cập nhật tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng; ảnh chụp món ăn thật có thể bổ sung sau khi quán có ảnh đẹp.

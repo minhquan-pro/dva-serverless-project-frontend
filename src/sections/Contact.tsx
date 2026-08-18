@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 import { SectionHeading } from "../components/SectionHeading";
 import { Button } from "../components/Button";
 import { SHOP_INFO } from "../data/shopInfo";
@@ -8,6 +8,9 @@ type SubmitStatus = "idle" | "loading" | "success" | "error";
 
 const NAME_MAX = 100;
 const MESSAGE_MAX = 500;
+
+const INPUT_CLASS =
+  "w-full rounded-xl border-[2.5px] border-ink bg-white px-3.5 py-2.5 font-semibold outline-none focus:outline-[3px] focus:outline-yellow";
 
 export function Contact() {
   const [name, setName] = useState("");
@@ -47,65 +50,82 @@ export function Contact() {
   }
 
   return (
-    <section id="lien-he" className="bg-cream-50 py-16 sm:py-20">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 md:grid-cols-2">
-        <div>
-          <SectionHeading eyebrow="Liên hệ" title="Đặt bàn / Liên hệ với quán" />
-          <div className="mt-6 space-y-2 text-brand-800">
-            <p>📍 {SHOP_INFO.address}</p>
-            <p>📞 {SHOP_INFO.phone}</p>
-            <p>🕐 {SHOP_INFO.openingHours}</p>
-          </div>
+    <section id="lien-he" className="bg-red px-4 py-20 sm:px-6">
+      <SectionHeading
+        tone="dark"
+        kicker="Liên hệ"
+        title="Ghé quán ngay hôm nay!"
+        description="Hoặc để lại lời nhắn, quán gọi lại liền!"
+      />
+
+      <div className="mx-auto mt-11 grid max-w-4xl grid-cols-1 gap-9 rounded-3xl border-[3px] border-ink bg-card p-8 shadow-[8px_8px_0_var(--color-ink)] sm:p-10 md:grid-cols-[1fr_1.1fr]">
+        <div className="flex flex-col gap-4.5">
+          <InfoRow icon="📍">{SHOP_INFO.address}</InfoRow>
+          <InfoRow icon="📞">{SHOP_INFO.phone}</InfoRow>
+          <InfoRow icon="⏰">{SHOP_INFO.openingHours}</InfoRow>
         </div>
 
-        <form onSubmit={handleSubmit} noValidate className="rounded-2xl border border-brand-100 bg-white p-6 shadow-sm">
-          <label htmlFor="name" className="mb-1 block text-sm font-semibold text-brand-900">
-            Họ tên <span className="text-accent-500">*</span>
-          </label>
-          <input
-            id="name"
-            value={name}
-            maxLength={NAME_MAX}
-            onChange={(event) => setName(event.target.value)}
-            className="w-full rounded-lg border border-brand-200 px-3 py-2 outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
-          />
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3.5">
+          <div>
+            <label htmlFor="name" className="mb-2 block text-xs font-extrabold uppercase tracking-wide text-ink/70">
+              Họ tên
+            </label>
+            <input
+              id="name"
+              value={name}
+              maxLength={NAME_MAX}
+              onChange={(event) => setName(event.target.value)}
+              className={INPUT_CLASS}
+            />
+          </div>
 
-          <label htmlFor="phone" className="mb-1 mt-4 block text-sm font-semibold text-brand-900">
-            Số điện thoại <span className="text-accent-500">*</span>
-          </label>
-          <input
-            id="phone"
-            value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-            className="w-full rounded-lg border border-brand-200 px-3 py-2 outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
-          />
+          <div>
+            <label htmlFor="phone" className="mb-2 block text-xs font-extrabold uppercase tracking-wide text-ink/70">
+              Số điện thoại
+            </label>
+            <input
+              id="phone"
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              className={INPUT_CLASS}
+            />
+          </div>
 
-          <label htmlFor="message" className="mb-1 mt-4 block text-sm font-semibold text-brand-900">
-            Lời nhắn (số người, giờ đến...)
-          </label>
-          <textarea
-            id="message"
-            value={message}
-            maxLength={MESSAGE_MAX}
-            rows={3}
-            onChange={(event) => setMessage(event.target.value)}
-            className="w-full rounded-lg border border-brand-200 px-3 py-2 outline-none focus:border-accent-500 focus:ring-2 focus:ring-accent-500/20"
-          />
+          <div>
+            <label htmlFor="message" className="mb-2 block text-xs font-extrabold uppercase tracking-wide text-ink/70">
+              Lời nhắn (số người, giờ đến...)
+            </label>
+            <textarea
+              id="message"
+              value={message}
+              maxLength={MESSAGE_MAX}
+              rows={3}
+              onChange={(event) => setMessage(event.target.value)}
+              className={INPUT_CLASS}
+            />
+          </div>
 
-          <Button type="submit" disabled={status === "loading"} className="mt-5 w-full">
-            {status === "loading" ? "Đang gửi..." : "Gửi thông tin"}
+          <Button variant="dark" type="submit" disabled={status === "loading"} className="mt-1 justify-center">
+            {status === "loading" ? "Đang gửi..." : "Gửi thông tin 🎉"}
           </Button>
 
           {status === "success" && (
-            <p className="mt-3 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
-              Cảm ơn bạn! Quán sẽ liên hệ lại sớm nhất.
-            </p>
+            <p className="text-sm font-bold text-green">Cảm ơn bạn! Quán sẽ liên hệ lại sớm nhất.</p>
           )}
-          {status === "error" && (
-            <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{errorMessage}</p>
-          )}
+          {status === "error" && <p className="text-sm font-bold text-red-deep">{errorMessage}</p>}
         </form>
       </div>
     </section>
+  );
+}
+
+function InfoRow({ icon, children }: { icon: string; children: ReactNode }) {
+  return (
+    <div className="flex items-start gap-3.5 font-bold text-ink">
+      <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border-[2.5px] border-ink bg-yellow">
+        {icon}
+      </span>
+      <span className="pt-1.5">{children}</span>
+    </div>
   );
 }

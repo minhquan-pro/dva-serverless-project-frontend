@@ -15,15 +15,16 @@ export function Menu() {
   );
 
   return (
-    <section id="thuc-don" className="bg-cream-50 py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    <section id="thuc-don" className="bg-ink px-4 py-20 sm:px-6">
+      <div className="mx-auto max-w-6xl">
         <SectionHeading
-          eyebrow="Thực đơn"
-          title="Món ngon mỗi sáng"
-          description="Thực đơn mẫu — cập nhật ảnh, tên món và giá thật khi quán sẵn sàng."
+          tone="dark"
+          kicker="Thực đơn"
+          title="Chọn món của bạn"
+          description="Đủ nhóm món cho một bữa sáng chắc bụng — chọn theo khẩu vị nhé!"
         />
 
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
+        <div className="mt-9 mb-11 flex flex-wrap justify-center gap-2.5">
           <FilterButton active={filter === "all"} onClick={() => setFilter("all")}>
             Tất cả
           </FilterButton>
@@ -34,7 +35,7 @@ export function Menu() {
           ))}
         </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <MenuCard key={item.id} item={item} />
           ))}
@@ -57,8 +58,8 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
-        active ? "bg-accent-500 text-cream-50" : "bg-brand-100 text-brand-800 hover:bg-brand-200"
+      className={`rounded-full border-[2.5px] px-4.5 py-2 font-display text-sm font-extrabold transition-colors ${
+        active ? "border-ink bg-red text-cream" : "border-[#6b5636] text-cream/80 hover:border-cream/60"
       }`}
     >
       {children}

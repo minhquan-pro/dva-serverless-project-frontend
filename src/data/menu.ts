@@ -1,56 +1,56 @@
 import type { MenuCategoryInfo, MenuItem } from "../types/menu";
 
 /**
- * Dữ liệu mẫu — thay bằng ảnh/tên món/giá thật của quán khi có.
+ * Dữ liệu mẫu — thay bằng tên món/giá thật của quán khi có.
  */
 
 export const MENU_CATEGORIES: MenuCategoryInfo[] = [
-  { id: "banh-cuon", label: "Bánh cuốn" },
-  { id: "bun-cha", label: "Bún chả" },
-  { id: "do-uong", label: "Đồ uống" },
-  { id: "mon-them", label: "Món thêm" },
+  { id: "banh-cuon", label: "Bánh cuốn", dotClass: "bg-yellow text-ink" },
+  { id: "bun-cha", label: "Bún chả", dotClass: "bg-red text-cream" },
+  { id: "do-uong", label: "Đồ uống", dotClass: "bg-green text-cream" },
+  { id: "mon-them", label: "Món thêm", dotClass: "bg-yellow text-ink" },
 ];
 
 export const MENU_ITEMS: MenuItem[] = [
   {
     id: "banh-cuon-thit",
     name: "Bánh cuốn thịt",
-    description: "Bánh cuốn nóng nhân thịt băm, mộc nhĩ, chả lụa, hành phi, nước mắm chua ngọt.",
+    description: "Nhân thịt băm, mộc nhĩ, chả lụa, hành phi, nước mắm chua ngọt.",
     price: 30000,
     category: "banh-cuon",
-    image: "https://placehold.co/600x450/f3d19f/6f3319?text=Banh+Cuon+Thit",
+    icon: "🥟",
   },
   {
     id: "banh-cuon-trung",
     name: "Bánh cuốn trứng",
-    description: "Bánh cuốn tráng mỏng kèm trứng gà, ăn cùng chả quế và rau thơm.",
+    description: "Bánh tráng mỏng kèm trứng gà, chả quế và rau thơm.",
     price: 32000,
     category: "banh-cuon",
-    image: "https://placehold.co/600x450/f3d19f/6f3319?text=Banh+Cuon+Trung",
+    icon: "🥟",
   },
   {
     id: "bun-cha-truyen-thong",
     name: "Bún chả truyền thống",
-    description: "Chả viên và chả miếng nướng than hoa, ăn kèm bún, nước chấm chua ngọt, rau sống.",
+    description: "Chả viên và chả miếng nướng than hoa, nước chấm chua ngọt, rau sống.",
     price: 40000,
     category: "bun-cha",
-    image: "https://placehold.co/600x450/ecb267/6f3319?text=Bun+Cha",
+    icon: "🍢",
   },
   {
     id: "bun-cha-nem",
     name: "Bún chả nem cua bể",
-    description: "Bún chả kèm nem cua bể giòn rụm, đầy đặn cho bữa sáng chắc bụng.",
+    description: "Kèm nem cua bể giòn rụm, đầy đặn cho bữa sáng chắc bụng.",
     price: 45000,
     category: "bun-cha",
-    image: "https://placehold.co/600x450/ecb267/6f3319?text=Bun+Cha+Nem",
+    icon: "🍢",
   },
   {
     id: "tra-da",
     name: "Trà đá",
-    description: "Trà đá mát lạnh, giải nhiệt cho bữa sáng thêm ngon miệng.",
+    description: "Mát lạnh, giải nhiệt cho bữa sáng thêm ngon miệng.",
     price: 5000,
     category: "do-uong",
-    image: "https://placehold.co/600x450/fbf1e0/8f3f1b?text=Tra+Da",
+    icon: "🧊",
   },
   {
     id: "ca-phe-sua-da",
@@ -58,14 +58,14 @@ export const MENU_ITEMS: MenuItem[] = [
     description: "Cà phê phin truyền thống, sữa đặc béo ngậy, đá mát lạnh.",
     price: 20000,
     category: "do-uong",
-    image: "https://placehold.co/600x450/fbf1e0/8f3f1b?text=Ca+Phe+Sua+Da",
+    icon: "☕",
   },
   {
     id: "nem-ran",
     name: "Nem rán",
-    description: "Nem rán giòn rụm, nhân thịt, mộc nhĩ, miến, ăn kèm nước chấm.",
+    description: "Giòn rụm, nhân thịt, mộc nhĩ, miến, ăn kèm nước chấm.",
     price: 15000,
     category: "mon-them",
-    image: "https://placehold.co/600x450/faead1/b5551a?text=Nem+Ran",
+    icon: "🍤",
   },
 ];
