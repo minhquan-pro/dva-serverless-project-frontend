@@ -49,9 +49,9 @@ export function Contact() {
   }
 
   return (
-    <section id="lien-he" className="bg-ink px-6 py-16 text-paper sm:px-7 sm:py-20">
+    <section className="bg-ink px-6 py-16 text-paper sm:px-7 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading tone="dark" index="03" title="Liên hệ" />
+        <SectionHeading tone="dark" title="Liên hệ" />
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.1fr]">
           <div className="flex flex-col gap-5">

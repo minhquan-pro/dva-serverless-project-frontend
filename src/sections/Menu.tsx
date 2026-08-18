@@ -15,9 +15,9 @@ export function Menu() {
   );
 
   return (
-    <section id="thuc-don" className="border-b-[3px] border-ink px-6 py-16 sm:px-7 sm:py-20">
+    <section className="px-6 py-16 sm:px-7 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading index="01" title="Thực đơn" />
+        <SectionHeading title="Thực đơn" description="Thực đơn mẫu — chọn theo nhóm món bạn thích." />
 
         <div className="mb-11 flex w-fit flex-wrap divide-x-[1.5px] divide-ink border-[1.5px] border-ink">
           <FilterButton active={filter === "all"} onClick={() => setFilter("all")}>

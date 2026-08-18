@@ -1,5 +1,5 @@
 interface SectionHeadingProps {
-  index: string;
+  index?: string;
   title: string;
   description?: string;
   tone?: "light" | "dark";
@@ -15,7 +15,7 @@ export function SectionHeading({ index, title, description, tone = "light" }: Se
   return (
     <div className="mb-11">
       <div className="flex items-baseline gap-4">
-        <span className="whitespace-nowrap font-display text-sm font-extrabold text-red">§ {index}</span>
+        {index && <span className="whitespace-nowrap font-display text-sm font-extrabold text-red">§ {index}</span>}
         <h2 className={`text-3xl sm:text-4xl ${classes.title}`}>{title}</h2>
         <span className={`hidden h-px flex-1 sm:block ${classes.rule}`} />
       </div>

@@ -1,8 +1,8 @@
-import { Button } from "../components/Button";
+import { LinkButton } from "../components/LinkButton";
 
 export function Hero() {
   return (
-    <section id="top" className="border-b-[3px] border-ink px-6 pt-16 sm:px-7">
+    <section className="border-b-[3px] border-ink px-6 pt-16 sm:px-7">
       <div className="mx-auto max-w-6xl pb-14">
         <span className="mb-6 inline-block border-[1.5px] border-red px-3.5 py-1 font-display text-xs font-extrabold uppercase tracking-wide text-red">
           Số đặc biệt · Bữa sáng
@@ -20,19 +20,12 @@ export function Hero() {
             phố.
           </p>
           <div className="flex self-start">
-            <Button
-              variant="solid"
-              className="border-r-0"
-              onClick={() => document.querySelector("#thuc-don")?.scrollIntoView({ behavior: "smooth" })}
-            >
+            <LinkButton to="/thuc-don" variant="solid" className="border-r-0">
               Xem thực đơn
-            </Button>
-            <Button
-              variant="line"
-              onClick={() => document.querySelector("#lien-he")?.scrollIntoView({ behavior: "smooth" })}
-            >
+            </LinkButton>
+            <LinkButton to="/lien-he" variant="line">
               Đặt bàn
-            </Button>
+            </LinkButton>
           </div>
         </div>
       </div>

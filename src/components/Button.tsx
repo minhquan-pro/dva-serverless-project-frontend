@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "solid" | "line" | "red";
+export type ButtonVariant = "solid" | "line" | "red";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -12,11 +12,10 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   red: "bg-red text-paper border-red hover:bg-transparent hover:text-red",
 };
 
+export function buttonClassName(variant: ButtonVariant = "solid", className = ""): string {
+  return `inline-flex items-center gap-2 border-[1.5px] border-ink px-6 py-3.5 font-display text-sm font-extrabold uppercase tracking-wide transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${VARIANT_CLASSES[variant]} ${className}`;
+}
+
 export function Button({ variant = "solid", className = "", ...props }: ButtonProps) {
-  return (
-    <button
-      className={`inline-flex items-center gap-2 border-[1.5px] border-ink px-6 py-3.5 font-display text-sm font-extrabold uppercase tracking-wide transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${VARIANT_CLASSES[variant]} ${className}`}
-      {...props}
-    />
-  );
+  return <button className={buttonClassName(variant, className)} {...props} />;
 }

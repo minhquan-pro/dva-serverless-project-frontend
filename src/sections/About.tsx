@@ -10,10 +10,10 @@ const STATS = [
 
 export function About() {
   return (
-    <section id="gioi-thieu" className="border-b-[3px] border-ink px-6 py-16 sm:px-7 sm:py-20">
+    <section className="px-6 py-16 sm:px-7 sm:py-20">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-14 md:grid-cols-2">
         <div>
-          <SectionHeading index="02" title="Giới thiệu" />
+          <SectionHeading title="Giới thiệu" />
           <p className="text-base font-medium leading-relaxed text-ink/65 sm:text-lg">
             Quán bắt đầu từ gánh hàng nhỏ ở góc chợ, nay vẫn giữ đúng công thức nước chấm gia truyền và cách tráng
             bánh cuốn tay từng lớp mỏng.
