@@ -1,48 +1,48 @@
 ---
 name: ui-reference
-description: Hệ thống thiết kế "Phố Ẩm Thực" đã chốt cho website bán đồ ăn (bánh cuốn, bún chả) — dùng khi xây dựng section/trang/component mới bằng React + Tailwind để giữ đúng màu sắc, font, hình khối đã thống nhất với chủ shop.
+description: Hệ thống thiết kế "Ấn Bản Sáng" đã chốt cho website bán đồ ăn (bánh cuốn, bún chả) — dùng khi xây dựng section/trang/component mới bằng React + Tailwind để giữ đúng màu sắc, font, hình khối đã thống nhất với chủ shop.
 ---
 
-# UI Reference — "Phố Ẩm Thực" Design System
+# UI Reference — "Ấn Bản Sáng" Design System
 
-Đây là hệ thống thiết kế ĐÃ CHỐT (chọn từ 3 phương án brainstorm ngày trước) — không phải gợi ý chung chung. Mọi section/trang mới nên theo đúng token dưới đây để giao diện nhất quán. Nếu chủ shop muốn đổi hướng thiết kế khác, dùng skill `brainstorming` trước, sau đó cập nhật lại file này và `CLAUDE.md`.
+Đây là hệ thống thiết kế ĐÃ CHỐT (chọn sau khi xem 9 phương án brainstorm, lấy cảm hứng từ poster in ấn/báo cũ) — không phải gợi ý chung chung. Mọi section/trang mới nên theo đúng token dưới đây để giao diện nhất quán. Nếu chủ shop muốn đổi hướng thiết kế khác, dùng skill `brainstorming` trước, sau đó cập nhật lại file này và `CLAUDE.md`.
 
 ## Token màu (định nghĩa tại `src/index.css` qua `@theme`)
 | Token | Hex | Vai trò |
 |---|---|---|
-| `ink` | `#241505` | Chữ chính, viền (border dày 2.5–3px) |
-| `cream` | `#fff4e3` | Nền chính |
-| `cream-deep` | `#ffeccb` | Gradient nền hero |
-| `card` | `#fffaf0` | Nền card/form |
-| `red` / `red-deep` | `#e14434` / `#b52f22` | Màu chủ đạo — CTA chính, section liên hệ |
-| `green` | `#2f6b4f` | Phụ — nav CTA, badge |
-| `yellow` | `#f4b400` | Phụ — tag, stat chip, icon nền |
+| `ink` | `#1b1b18` | Chữ chính, viền, nền tối (section Thực đơn/Liên hệ) |
+| `paper` | `#f2ecdd` | Nền chính (giấy) |
+| `paper-deep` | `#ece3cd` | Nền phụ, hover state |
+| `red` | `#b4302a` | Màu nhấn DUY NHẤT — giá tiền, CTA chính, số thứ tự `§ 0X` |
+| `grid` | `#c9c2ac` | Viền mảnh (hairline) giữa các dòng/item |
 
-Dùng trực tiếp qua class Tailwind: `bg-red`, `text-ink`, `border-ink`, v.v. — không hardcode mã hex trong component.
+Dùng trực tiếp qua class Tailwind: `bg-ink`, `text-red`, `border-grid`, v.v. — không hardcode mã hex trong component. Chỉ dùng `red` làm điểm nhấn — không thêm màu thứ 3, thứ 4.
 
 ## Font
-- `font-display` → Baloo 2 (tiêu đề, nút, badge — bo tròn, đậm).
-- `font-sans` (mặc định `body`) → Nunito (nội dung, mô tả).
-- Cả hai load qua Google Fonts trong `index.html`.
+- CHỈ một họ chữ: **Archivo** — dùng nhiều độ đậm (400 → 900) thay vì phối 2 font khác nhau.
+- `h1`/`h2`/`h3` mặc định: `font-weight: 900`, `text-transform: uppercase`, `letter-spacing: -0.01em` (đã set trong `src/index.css`, không cần lặp lại trong component).
+- Body/label dùng `font-sans` (cũng là Archivo) ở weight thường/đậm vừa.
 
 ## Ngôn ngữ hình khối
-- Viền dày `border-[2.5px]` hoặc `border-[3px] border-ink` trên hầu hết card/button/badge.
-- Bo tròn lớn: `rounded-full` cho pill/button/badge tròn, `rounded-2xl`/`rounded-3xl` cho card/khối lớn.
-- Đổ bóng kiểu sticker (hard shadow, không blur): `shadow-[4px_4px_0_var(--color-ink)]`, hover thu nhỏ còn `shadow-[2px_2px_0_var(--color-ink)]` kèm dịch chuyển nhẹ — tạo cảm giác nhấn nút thật.
-- Badge/tag giá xoay nghiêng nhẹ: `rotate-2`, `-rotate-2`, `rotate-6` — tạo cảm giác tem dán tay, tránh mọi thứ đều thẳng hàng cứng nhắc.
-- Icon món ăn dùng emoji tròn nền màu theo nhóm (xem `MENU_CATEGORIES` trong `src/data/menu.ts`) thay cho ảnh chụp — quán chưa có ảnh thật, ưu tiên đồ hoạ/icon phẳng hơn là placeholder ảnh xám.
+- KHÔNG bo góc — đây là thiết kế poster/in ấn, mọi thứ vuông vức (`border-*`, không `rounded-*`).
+- Viền mảnh `border-[1.5px]` để phân chia nav/tag/filter; viền dày `border-[3px] border-ink` để ngăn section lớn.
+- Hairline rule (`h-px bg-ink` hoặc `bg-paper/35` trên nền tối) kéo dài cạnh tiêu đề section — xem `SectionHeading`.
+- Số thứ tự đỏ kiểu mục lục (`§ 01`, `§ 02`, `§ 03`) đặt trước tiêu đề mỗi section lớn — CHỈ dùng cách này cho 3 section chính đã có thứ tự cố định (Thực đơn/Giới thiệu/Liên hệ); không lạm dụng đánh số cho nội dung không có trình tự thật.
+- Chữ viền rỗng (`-webkit-text-stroke`) dùng cho từ khoá nổi bật trong hero — hiệu ứng poster hai lớp chữ đặc/rỗng.
+- Không dùng icon/emoji trang trí — thực đơn và thông tin chỉ dùng typographic, không ảnh chụp món ăn ở giai đoạn này.
 
 ## Bố cục các section (đã áp dụng, dùng làm mẫu khi thêm section mới)
-1. **Header** — sticky, viền dưới dày, logo có badge tròn emoji, nav pill, CTA nav màu `green`.
-2. **Hero** — nền gradient `cream → cream-deep`, badge pill thông tin nhanh (giờ mở cửa, địa chỉ), tiêu đề có từ khoá nổi bật trong khối `bg-red` xoay nghiêng, khối "tem tròn" (stamp) bên phải với 2 chip nổi, đường chéo `clip-path` ngăn cách hero với section sau.
-3. **Menu** — nền `bg-ink` (tối, tương phản với hero), tab lọc pill, card `bg-card` viền dày với icon tròn + tag giá nổi góc trên bo xoay nhẹ.
-4. **About** — 2 cột: khối minh hoạ màu `green` bo lớn đổ bóng cứng + nội dung kèm dãy "stat chip" màu `yellow`.
-5. **Contact** — nền `bg-red`, card `bg-card` viền dày đổ bóng lớn, input bo `rounded-xl` viền dày, nút submit dùng biến thể `dark` (nền `ink`, chữ `yellow`).
-6. **Footer** — nền `ink`, chữ `cream`, đơn giản.
+1. **Header** — dải thông tin nhỏ phía trên (giờ mở cửa), logo chữ hoa đậm (chữ "Ăn Sáng" tô đỏ), nav dạng khối viền có gạch chia (`divide-x`).
+2. **Hero** — tag viền đỏ nhỏ phía trên, tiêu đề khổng lồ 2 dòng (dòng 2 dùng chữ viền rỗng), hairline rule ngăn cách với đoạn mô tả + nút CTA.
+3. **Menu** (§01) — nhóm nút lọc dạng khối viền liền nhau, danh sách món đánh số (`MenuRow`) — không phải lưới card.
+4. **About** (§02) — 2 cột: đoạn văn bên trái, lưới 2×2 chỉ số thống kê có viền bên phải.
+5. **Contact** (§03) — nền `bg-ink` tối, thông tin dạng label/value, input chỉ có viền dưới (underline), nút submit đỏ vuông vức.
+6. **Footer** — 2 dòng đơn giản, chữ hoa nhỏ, canh 2 đầu.
 
 ## Component dùng chung
-- `Button` (`src/components/Button.tsx`) — biến thể `primary` (đỏ), `secondary` (trắng), `accent` (xanh lá, dùng cho nav CTA), `dark` (nền ink/chữ vàng, dùng cho submit form).
-- `SectionHeading` (`src/components/SectionHeading.tsx`) — kicker dạng pill + tiêu đề Baloo 2, có `tone="light"` (nền sáng) và `tone="dark"` (nền tối như section Menu/Contact).
+- `Button` (`src/components/Button.tsx`) — biến thể `solid` (nền ink), `line` (viền, nền trong suốt), `red` (viền/nền đỏ). Không bo góc, chữ hoa, tracking rộng.
+- `SectionHeading` (`src/components/SectionHeading.tsx`) — nhận `index` (số thứ tự dạng chuỗi, vd `"01"`), `title`, `description?`, `tone` (`light`/`dark`).
+- `MenuRow` (`src/components/MenuRow.tsx`) — 1 dòng thực đơn: số thứ tự + tên/mô tả + giá, dùng trong danh sách thay vì card.
 
 ## Khi gọi API (liên hệ/đặt món)
 - Dùng chung axios instance ở `src/services/api.ts` với `baseURL` từ `import.meta.env.VITE_API_URL`.

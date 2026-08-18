@@ -3,12 +3,13 @@
 ## Bối cảnh dự án
 Frontend cho website bán đồ ăn sáng của nhà (bánh cuốn, bún chả, ...). Đây là phần frontend của "dva-serverless-project" — backend dự kiến là AWS serverless (API Gateway + Lambda), giao tiếp qua REST API bằng Axios. Dự án đã được scaffold (Vite + React + TypeScript + Tailwind v4 + Axios), one-page, có form liên hệ (chưa có giỏ hàng/đặt món online).
 
-## Nhận diện thiết kế đã chốt: "Phố Ẩm Thực"
-Sau khi brainstorm 3 phương án giao diện, chủ shop đã chọn hướng **sôi động kiểu quán vỉa hè** — đây là hệ thống thiết kế chính thức, ưu tiên áp dụng cho mọi trang/section mới:
-- **Màu** (định nghĩa trong `src/index.css` qua `@theme`): `ink` #241505 (chữ/viền chính), `cream` #fff4e3 (nền), `cream-deep` #ffeccb (gradient nền hero), `card` #fffaf0 (nền card), `red`/`red-deep` (màu chủ đạo CTA), `green` (phụ, badge/nav CTA), `yellow` (phụ, tag/stat chip).
-- **Font**: `font-display` = Baloo 2 (tiêu đề, bo tròn, đậm) — `font-sans` = Nunito (nội dung). Load qua Google Fonts trong `index.html`.
-- **Hình khối đặc trưng**: viền dày `border-[2.5px]`/`border-[3px] border-ink`, bo tròn lớn (`rounded-full`, `rounded-2xl`/`rounded-3xl`), đổ bóng "hard shadow" kiểu stickers (`shadow-[Npx_Npx_0_var(--color-ink)]`), tag giá dạng badge xoay nghiêng (`rotate-2`/`-rotate-2`).
-- **Không dùng ảnh món ăn thật dạng photo** ở giai đoạn này — dùng icon emoji đại diện món (xem `src/data/menu.ts`), thay ảnh thật bằng photo khi quán có ảnh chụp đẹp và cần nâng cấp lên phiên bản polish hơn.
+## Nhận diện thiết kế đã chốt: "Ấn Bản Sáng"
+Sau khi brainstorm và xem qua 9 phương án giao diện (bao gồm cả "Phố Ẩm Thực" từng áp dụng trước đó), chủ shop đã chọn hướng **poster in ấn/báo cũ táo bạo** — đây là hệ thống thiết kế chính thức, ưu tiên áp dụng cho mọi trang/section mới:
+- **Màu** (định nghĩa trong `src/index.css` qua `@theme`): `ink` #1b1b18 (chữ/viền/nền tối), `paper` #f2ecdd (nền giấy chính), `paper-deep` #ece3cd (nền phụ/hover), `red` #b4302a (màu nhấn duy nhất — dùng cho giá, CTA, số thứ tự section), `grid` #c9c2ac (viền mảnh/hairline).
+- **Font**: chỉ MỘT họ chữ — Archivo, dùng ở nhiều độ đậm (400 → 900). Tiêu đề (`h1`/`h2`/`h3`) mặc định `font-weight: 900`, `uppercase`, `letter-spacing: -0.01em` (đã set sẵn trong `src/index.css`). Load qua Google Fonts trong `index.html`.
+- **Hình khối đặc trưng**: KHÔNG bo góc (poster/print, không `rounded-*`), viền mảnh `border-[1.5px]`/dày `border-[3px] border-ink` phân tách section, hairline rule (`h-px bg-ink`) kéo dài bên cạnh tiêu đề, số thứ tự đỏ kiểu mục lục (`§ 01`, `§ 02`...) — chỉ dùng số khi nội dung thực sự có thứ tự (3 section chính: Thực đơn/Giới thiệu/Liên hệ).
+- **Thực đơn trình bày dạng danh sách đánh số** (xem `src/components/MenuRow.tsx`) — không phải card ảnh — số thứ tự (`01`, `02`...) + tên món + mô tả + giá canh phải, giống một ấn phẩm in, không dùng icon/emoji trang trí.
+- **Không dùng ảnh món ăn thật dạng photo** ở giai đoạn này — thiết kế thuần typographic. Nếu sau này quán muốn thêm ảnh, cân nhắc đổi hướng thiết kế khác phù hợp hơn với ảnh chụp.
 - Style này được coi là baseline — nếu đổi hướng thiết kế khác, cập nhật lại mục này.
 
 ## Tech stack

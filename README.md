@@ -22,7 +22,7 @@ npm run dev
 ```
 src/
   assets/        # ảnh, icon, font
-  components/    # component dùng chung (Button, MenuCard, SectionHeading...)
+  components/    # component dùng chung (Button, MenuRow, SectionHeading...)
   sections/      # các block lớn của trang (Header, Hero, Menu, About, Contact, Footer)
   services/      # axios instance + API calls
   types/         # TypeScript types
@@ -34,4 +34,4 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 
 ## Trạng thái hiện tại
 
-Bản one-page: Hero, Thực đơn (dữ liệu mẫu, lọc theo nhóm), Giới thiệu, form Liên hệ (gửi qua Axios tới `VITE_API_URL`). Giao diện theo hệ thống thiết kế **"Phố Ẩm Thực"** (bo tròn, viền dày, đổ bóng cứng, tông đỏ/vàng/xanh lá — chi tiết tại `.claude/skills/ui-reference/SKILL.md`). Tên món/giá và thông tin quán trong `src/data/` đang là dữ liệu mẫu — cập nhật tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng; ảnh chụp món ăn thật có thể bổ sung sau khi quán có ảnh đẹp.
+Bản one-page: Hero, Thực đơn (dữ liệu mẫu, lọc theo nhóm, trình bày dạng danh sách đánh số), Giới thiệu, form Liên hệ (gửi qua Axios tới `VITE_API_URL`). Giao diện theo hệ thống thiết kế **"Ấn Bản Sáng"** (poster/báo in, một họ chữ Archivo, hai màu chủ đạo đen-đỏ trên nền giấy — chi tiết tại `.claude/skills/ui-reference/SKILL.md`). Tên món/giá và thông tin quán trong `src/data/` đang là dữ liệu mẫu — cập nhật tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng.

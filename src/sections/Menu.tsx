@@ -1,6 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { SectionHeading } from "../components/SectionHeading";
-import { MenuCard } from "../components/MenuCard";
+import { MenuRow } from "../components/MenuRow";
 import { MENU_CATEGORIES, MENU_ITEMS } from "../data/menu";
 import type { MenuCategory } from "../types/menu";
 
@@ -15,16 +15,11 @@ export function Menu() {
   );
 
   return (
-    <section id="thuc-don" className="bg-ink px-4 py-20 sm:px-6">
+    <section id="thuc-don" className="border-b-[3px] border-ink px-6 py-16 sm:px-7 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <SectionHeading
-          tone="dark"
-          kicker="Thực đơn"
-          title="Chọn món của bạn"
-          description="Đủ nhóm món cho một bữa sáng chắc bụng — chọn theo khẩu vị nhé!"
-        />
+        <SectionHeading index="01" title="Thực đơn" />
 
-        <div className="mt-9 mb-11 flex flex-wrap justify-center gap-2.5">
+        <div className="mb-11 flex w-fit flex-wrap divide-x-[1.5px] divide-ink border-[1.5px] border-ink">
           <FilterButton active={filter === "all"} onClick={() => setFilter("all")}>
             Tất cả
           </FilterButton>
@@ -35,9 +30,9 @@ export function Menu() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <MenuCard key={item.id} item={item} />
+        <div className="max-w-3xl">
+          {items.map((item, i) => (
+            <MenuRow key={item.id} item={item} number={i + 1} />
           ))}
         </div>
       </div>
@@ -58,8 +53,8 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full border-[2.5px] px-4.5 py-2 font-display text-sm font-extrabold transition-colors ${
-        active ? "border-ink bg-red text-cream" : "border-[#6b5636] text-cream/80 hover:border-cream/60"
+      className={`px-4.5 py-2.5 font-display text-xs font-extrabold uppercase tracking-wide transition-colors ${
+        active ? "bg-ink text-paper" : "bg-paper text-ink hover:bg-paper-deep"
       }`}
     >
       {children}

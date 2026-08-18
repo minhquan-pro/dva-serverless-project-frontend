@@ -1,19 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  /* Hệ màu "Phố Ẩm Thực" — chốt từ 3 phương án brainstorm (option 3) */
-  --color-ink: #241505;
-  --color-cream: #fff4e3;
-  --color-cream-deep: #ffeccb;
-  --color-card: #fffaf0;
+  /* Hệ thiết kế "Ấn Bản Sáng" — chốt từ phương án brainstorm (option 6, cảm hứng poster in ấn/báo cũ) */
+  --color-ink: #1b1b18;
+  --color-paper: #f2ecdd;
+  --color-paper-deep: #ece3cd;
+  --color-red: #b4302a;
+  --color-grid: #c9c2ac;
 
-  --color-red: #e14434;
-  --color-red-deep: #b52f22;
-  --color-green: #2f6b4f;
-  --color-yellow: #f4b400;
-
-  --font-display: "Baloo 2", ui-rounded, "Segoe UI", sans-serif;
-  --font-sans: "Nunito", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
 
 html {
@@ -21,7 +17,7 @@ html {
 }
 
 body {
-  @apply bg-cream text-ink;
+  @apply bg-paper text-ink;
   font-family: var(--font-sans);
 }
 
@@ -29,6 +25,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 

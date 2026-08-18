@@ -7,7 +7,7 @@ import { Footer } from "./sections/Footer";
 
 function App() {
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-paper">
       <Header />
       <main>
         <Hero />
