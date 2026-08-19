@@ -33,7 +33,7 @@ Dùng trực tiếp qua class Tailwind: `bg-ink`, `text-red`, `border-grid`, v.v
 
 ## Router — nhiều trang riêng biệt
 Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc trong `Layout` (`src/components/Layout.tsx` = Header + `<Outlet/>` + Footer). Mỗi trang trong `src/pages/` là 1 route:
-- `/`, `/thuc-don`, `/thuc-don/:id` (chi tiết món, `ProductPage.tsx`), `/gioi-thieu`, `/lien-he`, `/dang-nhap`, `/dang-ky`, `/tai-khoan` (route bảo vệ qua `ProtectedRoute`, xem `AuthContext`).
+- `/`, `/thuc-don`, `/thuc-don/:id` (chi tiết món, `ProductPage.tsx`), `/gioi-thieu`, `/lien-he`, `/dang-nhap` (chỉ đăng nhập Google, không có trang đăng ký riêng), `/tai-khoan` (route bảo vệ qua `ProtectedRoute`, xem `AuthContext`).
 - Vì mỗi mục nay là 1 trang riêng (không còn scroll 1 trang dài), KHÔNG dùng số thứ tự `§ 0X` xuyên suốt nhiều trang nữa — mỗi trang chỉ có 1 `SectionHeading` không cần `index`.
 - Điều hướng nội bộ dùng `<Link>`/`<NavLink>` (`react-router-dom`) hoặc `LinkButton` (`src/components/LinkButton.tsx` — giống `Button` nhưng render `<Link>`, dùng khi CTA điều hướng sang trang khác thay vì submit form).
 - Nav trong `Header` dùng `NavLink` để tô đậm trang hiện tại (nền `ink`/chữ `paper`).
@@ -45,8 +45,8 @@ Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc tr
 3b. **Product** (`/thuc-don/:id`, `ProductPage.tsx`) — link "← Quay lại thực đơn" ở đầu trang dẫn về `/` (trang chủ, không phải `/thuc-don`). Bố cục 2 cột: khung ảnh đặt chỗ (`aspect-[4/3]`, viền `border-[1.5px] border-ink`, khung nét đứt `border-dashed border-grid` bên trong, icon + "Ảnh món ăn sẽ được cập nhật" — thay bằng `<img object-cover>` khi có ảnh thật) bên trái, tag danh mục + tên món + giá (đỏ) + mô tả + hairline rule + nút "Thêm vào giỏ hàng" (`disabled`, chưa hoạt động — kèm ghi chú gọi điện đặt trước qua `tel:`) bên phải. Bên dưới là section "Món liên quan" (`SectionHeading` không `index`) — lưới 3 cột (`MenuItem` cùng danh mục ưu tiên trước), mỗi thẻ có số thứ tự đỏ theo đúng vị trí trong `MENU_ITEMS`, dẫn sang trang chi tiết món đó. Món không tồn tại (`id` sai) hiển thị thông báo 404 kèm nút quay lại `/thuc-don`.
 4. **About** (`/gioi-thieu`) — 2 cột: đoạn văn bên trái, lưới 2×2 chỉ số thống kê có viền bên phải.
 5. **Contact** (`/lien-he`) — nền `bg-ink` tối, thông tin dạng label/value, input chỉ có viền dưới (underline), nút submit đỏ vuông vức.
-6. **Login/Register** (`/dang-nhap`, `/dang-ky`) — khung hẹp căn giữa (`max-w-md`), tag viền đỏ "Thành viên · Quán nhà" phía trên, `AuthTabs` (2 nút dạng khối viền liền, tab trang hiện tại tô nền `ink`) để chuyển nhanh giữa 2 route, input viền dưới (underline, `border-grid` → `focus:border-red`), `Button` full-width, link chữ chuyển đổi giữa 2 trang màu đỏ gạch chân (giữ song song với tab, không thay thế), `AuthMeta` (giờ mở cửa/SĐT) đóng khung dưới cùng.
-7. **Account** (`/tai-khoan`) — lưới 2 cột viền (giống stat-grid của About) hiển thị tên/SĐT, nút "Đăng xuất" biến thể `line`.
+6. **Login** (`/dang-nhap`) — khung hẹp căn giữa (`max-w-md`), tag viền đỏ "Thành viên · Quán nhà" phía trên, MỘT nút duy nhất "Đăng nhập với Google" (viền vuông, icon Google 4 màu, full-width — không còn tab/form SĐT), `AuthMeta` (giờ mở cửa/SĐT) đóng khung dưới cùng.
+7. **Account / Profile** (`/tai-khoan`, "Thẻ Hồ Sơ") — tag "Tài khoản của tôi", khối danh tính đầu trang: avatar vuông viền `border-[1.5px] border-ink` (ảnh Google nếu có `avatarUrl`, nếu không hiện chữ cái đầu tên) + tên (`normal-case`, không hoa toàn bộ) + email + nhãn nhỏ "Đăng nhập bằng Google" kèm icon, ngăn cách bằng hairline `border-b-[1.5px] border-ink`. Bên dưới là form SĐT + địa chỉ giao hàng (input/textarea viền dưới) với nút "Lưu thông tin" — bấm hiện chữ đỏ "Đã lưu." tạm thời. Nút "Đăng xuất" (biến thể `line`) đặt riêng dưới cùng, ngăn cách bằng `border-t`.
 8. **Footer** — 2 dòng đơn giản, chữ hoa nhỏ, canh 2 đầu.
 
 ## Component dùng chung
@@ -56,11 +56,10 @@ Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc tr
 - `MenuRow` (`src/components/MenuRow.tsx`) — 1 dòng thực đơn: số thứ tự + tên/mô tả + giá, dùng trong danh sách thay vì card.
 - `Layout` (`src/components/Layout.tsx`) — Header + `<Outlet/>` + Footer, bọc mọi route.
 - `ProtectedRoute` (`src/components/ProtectedRoute.tsx`) — redirect về `/dang-nhap` nếu `useAuth().isAuthenticated` false.
-- `AuthTabs` (`src/components/AuthTabs.tsx`) — tab `NavLink` chuyển giữa `/dang-nhap`/`/dang-ky`, dùng ở đầu 2 trang xác thực.
-- `AuthMeta` (`src/components/AuthMeta.tsx`) — dòng giờ mở cửa/SĐT ở cuối card xác thực, lấy từ `SHOP_INFO`.
+- `AuthMeta` (`src/components/AuthMeta.tsx`) — dòng giờ mở cửa/SĐT ở cuối card đăng nhập, lấy từ `SHOP_INFO`.
 
 ## Khi gọi API (liên hệ/đặt món/xác thực)
 - Dùng chung axios instance ở `src/services/api.ts` với `baseURL` từ `import.meta.env.VITE_API_URL`.
 - Mỗi nhóm chức năng có 1 file service riêng (`contactService.ts`, `authService.ts`...), không gọi axios trực tiếp trong component.
 - Hiển thị rõ 3 trạng thái loading/success/error — xem mẫu trong `src/sections/Contact.tsx`, `src/pages/LoginPage.tsx`.
-- Trạng thái đăng nhập dùng chung qua `useAuth()` (`src/context/AuthContext.tsx`) — không tạo thêm state riêng ở component để lưu user/token.
+- Trạng thái đăng nhập dùng chung qua `useAuth()` (`src/context/AuthContext.tsx`) — không tạo thêm state riêng ở component để lưu user/token. `authService.loginWithGoogleRequest()` hiện là giả lập (chưa có Google Client ID) — xem ghi chú trong `CLAUDE.md`.

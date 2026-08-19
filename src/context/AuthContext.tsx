@@ -1,63 +1,55 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { loginRequest, registerRequest } from "../services/authService";
-import type { AuthUser, LoginPayload, RegisterPayload } from "../types/auth";
+import { loginWithGoogleRequest } from "../services/authService";
+import type { AuthUser, ProfileUpdate } from "../types/auth";
 
 const STORAGE_KEY = "breakfast-shop-auth";
-
-interface StoredSession {
-  token: string;
-  user: AuthUser;
-}
 
 interface AuthContextValue {
   user: AuthUser | null;
   isAuthenticated: boolean;
-  login: (payload: LoginPayload) => Promise<void>;
-  register: (payload: RegisterPayload) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
+  updateProfile: (updates: ProfileUpdate) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function readStoredSession(): StoredSession | null {
+function readStoredUser(): AuthUser | null {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) return null;
   try {
-    return JSON.parse(raw) as StoredSession;
+    return JSON.parse(raw) as AuthUser;
   } catch {
     return null;
   }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<StoredSession | null>(() => readStoredSession());
+  const [user, setUser] = useState<AuthUser | null>(() => readStoredUser());
 
   useEffect(() => {
-    if (session) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    if (user) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
     } else {
       localStorage.removeItem(STORAGE_KEY);
     }
-  }, [session]);
+  }, [user]);
 
-  async function login(payload: LoginPayload) {
-    const response = await loginRequest(payload);
-    setSession(response);
+  async function loginWithGoogle() {
+    const profile = await loginWithGoogleRequest();
+    setUser(profile);
   }
 
-  async function register(payload: RegisterPayload) {
-    const response = await registerRequest(payload);
-    setSession(response);
+  function updateProfile(updates: ProfileUpdate) {
+    setUser((current) => (current ? { ...current, ...updates } : current));
   }
 
   function logout() {
-    setSession(null);
+    setUser(null);
   }
 
   return (
-    <AuthContext.Provider
-      value={{ user: session?.user ?? null, isAuthenticated: session !== null, login, register, logout }}
-    >
+    <AuthContext.Provider value={{ user, isAuthenticated: user !== null, loginWithGoogle, updateProfile, logout }}>
       {children}
     </AuthContext.Provider>
   );

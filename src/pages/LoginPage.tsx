@@ -1,50 +1,26 @@
-import { useState, type FormEvent } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SectionHeading } from "../components/SectionHeading";
-import { Button } from "../components/Button";
-import { AuthTabs } from "../components/AuthTabs";
 import { AuthMeta } from "../components/AuthMeta";
 import { useAuth } from "../context/AuthContext";
 
-type SubmitStatus = "idle" | "loading" | "error";
-
-const INPUT_CLASS =
-  "w-full border-0 border-b-[1.5px] border-grid bg-transparent px-0 py-2 font-medium text-ink outline-none focus:border-red";
+type Status = "idle" | "loading" | "error";
 
 export function LoginPage() {
-  const { login } = useAuth();
+  const { loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState<SubmitStatus>("idle");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
 
-  function validate(): string | null {
-    if (!/^[0-9+\s]{8,15}$/.test(phone.trim())) return "Số điện thoại không hợp lệ";
-    if (!password) return "Vui lòng nhập mật khẩu";
-    return null;
-  }
-
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    const validationError = validate();
-    if (validationError) {
-      setStatus("error");
-      setErrorMessage(validationError);
-      return;
-    }
-
+  async function handleGoogleLogin() {
     setStatus("loading");
-    setErrorMessage("");
     try {
-      await login({ phone: phone.trim(), password });
+      await loginWithGoogle();
       const redirectTo = (location.state as { from?: string } | null)?.from ?? "/tai-khoan";
       navigate(redirectTo, { replace: true });
     } catch {
       setStatus("error");
-      setErrorMessage("Số điện thoại hoặc mật khẩu không đúng.");
     }
   }
 
@@ -55,50 +31,41 @@ export function LoginPage() {
           Thành viên · Quán nhà
         </span>
 
-        <AuthTabs />
+        <SectionHeading
+          title="Đăng nhập"
+          description="Đăng nhập bằng Google để lưu thông tin giao hàng cho lần đặt món tiếp theo."
+        />
 
-        <SectionHeading title="Đăng nhập" description="Nhập số điện thoại và mật khẩu để tiếp tục." />
-
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-          <div>
-            <label htmlFor="phone" className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/60">
-              Số điện thoại
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-              className={INPUT_CLASS}
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={status === "loading"}
+          className="flex w-full items-center justify-center gap-3 border-[1.5px] border-ink bg-paper py-3.5 font-display text-sm font-extrabold uppercase tracking-wide text-ink transition-colors hover:bg-paper-deep disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5 flex-shrink-0">
+            <path
+              fill="#4285F4"
+              d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.4-1.1 2.6-2.4 3.4v2.9h3.9c2.3-2.1 3.5-5.2 3.5-8.5z"
             />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="mb-2 block text-xs font-bold uppercase tracking-wide text-ink/60">
-              Mật khẩu
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className={INPUT_CLASS}
+            <path
+              fill="#34A853"
+              d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-2.9c-1.1.7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9H1.4v3C3.3 21.3 7.3 24 12 24z"
             />
-          </div>
+            <path
+              fill="#FBBC05"
+              d="M5.4 14.4c-.2-.7-.4-1.5-.4-2.4s.1-1.6.4-2.4V6.6H1.4C.5 8.3 0 10.1 0 12s.5 3.7 1.4 5.4l4-3z"
+            />
+            <path
+              fill="#EA4335"
+              d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C18 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.6l4 3.1c.9-2.8 3.5-4.9 6.6-4.9z"
+            />
+          </svg>
+          {status === "loading" ? "Đang đăng nhập..." : "Đăng nhập với Google"}
+        </button>
 
-          <Button type="submit" disabled={status === "loading"} className="mt-2 justify-center">
-            {status === "loading" ? "Đang đăng nhập..." : "Đăng nhập"}
-          </Button>
-
-          {status === "error" && <p className="text-sm font-bold text-red">{errorMessage}</p>}
-        </form>
-
-        <p className="mt-7 text-sm font-medium text-ink/70">
-          Chưa có tài khoản?{" "}
-          <Link to="/dang-ky" className="font-bold text-red underline underline-offset-2">
-            Đăng ký ngay
-          </Link>
-        </p>
+        {status === "error" && (
+          <p className="mt-4 text-sm font-bold text-red">Đăng nhập thất bại, vui lòng thử lại.</p>
+        )}
 
         <AuthMeta />
       </div>

@@ -43,14 +43,13 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 | `/thuc-don/:id` | Chi tiết món | Ảnh đặt chỗ + mô tả + món liên quan, nút "Thêm vào giỏ hàng" chưa hoạt động |
 | `/gioi-thieu` | Giới thiệu | |
 | `/lien-he` | Liên hệ | Form gửi qua Axios tới `VITE_API_URL` |
-| `/dang-nhap` | Đăng nhập | SĐT + mật khẩu |
-| `/dang-ky` | Đăng ký | Họ tên, SĐT, mật khẩu |
-| `/tai-khoan` | Tài khoản | Route bảo vệ — redirect về `/dang-nhap` nếu chưa đăng nhập |
+| `/dang-nhap` | Đăng nhập | Chỉ đăng nhập bằng Google (giả lập UI, chưa nối Google Identity Services thật) |
+| `/tai-khoan` | Tài khoản | Route bảo vệ — redirect về `/dang-nhap` nếu chưa đăng nhập. Hiển thị avatar/tên/email từ Google + form SĐT/địa chỉ giao hàng |
 
 ## Trạng thái hiện tại
 
 Nhiều trang riêng biệt dùng React Router. Giao diện theo hệ thống thiết kế **"Ấn Bản Sáng"** (poster/báo in, một họ chữ Archivo, hai màu chủ đạo đen-đỏ trên nền giấy — chi tiết tại `.claude/skills/ui-reference/SKILL.md`).
 
-Đăng nhập/đăng ký chỉ dùng số điện thoại + mật khẩu (không OTP). **Backend xác thực chưa có** — `src/services/authService.ts` đã gọi đúng `POST /auth/login` / `POST /auth/register` qua axios, sẵn sàng hoạt động khi backend triển khai xong; hiện tại các request này sẽ báo lỗi cho tới khi có API thật. Trạng thái đăng nhập lưu ở `AuthContext` (React Context + `localStorage`), tài khoản mới chỉ lưu tên/SĐT — chuẩn bị cho tính năng đặt món online sau này, chưa có giỏ hàng/đơn hàng.
+Đăng nhập chỉ bằng Google — không còn form SĐT/mật khẩu, không có trang đăng ký. **Chưa có Google OAuth Client ID** — `src/services/authService.ts` (`loginWithGoogleRequest`) hiện giả lập trả về một hồ sơ mẫu ngay lập tức để dựng luồng UI trước; thay bằng tích hợp Google Identity Services thật khi có Client ID. Trạng thái đăng nhập lưu ở `AuthContext` (React Context + `localStorage`). Tài khoản có `name`/`email`/`avatarUrl` (từ Google) + `phone`/`address` (người dùng tự nhập, lưu qua nút "Lưu thông tin" ở trang Tài khoản) — chuẩn bị cho tính năng đặt món online sau này, chưa có giỏ hàng/đơn hàng.
 
 Tên món/giá và thông tin quán trong `src/data/` đang là dữ liệu mẫu — cập nhật tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng.

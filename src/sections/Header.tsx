@@ -98,14 +98,9 @@ export function Header() {
               </button>
             </>
           ) : (
-            <>
-              <NavLink to="/dang-nhap" className={MOBILE_NAV_LINK_CLASS} onClick={() => setIsMenuOpen(false)}>
-                Đăng nhập
-              </NavLink>
-              <NavLink to="/dang-ky" className={MOBILE_NAV_LINK_CLASS} onClick={() => setIsMenuOpen(false)}>
-                Đăng ký
-              </NavLink>
-            </>
+            <NavLink to="/dang-nhap" className={MOBILE_NAV_LINK_CLASS} onClick={() => setIsMenuOpen(false)}>
+              Đăng nhập
+            </NavLink>
           )}
         </nav>
       )}

@@ -7,7 +7,6 @@ import { ProductPage } from "./pages/ProductPage";
 import { AboutPage } from "./pages/AboutPage";
 import { ContactPage } from "./pages/ContactPage";
 import { LoginPage } from "./pages/LoginPage";
-import { RegisterPage } from "./pages/RegisterPage";
 import { AccountPage } from "./pages/AccountPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
@@ -21,7 +20,6 @@ function App() {
         <Route path="gioi-thieu" element={<AboutPage />} />
         <Route path="lien-he" element={<ContactPage />} />
         <Route path="dang-nhap" element={<LoginPage />} />
-        <Route path="dang-ky" element={<RegisterPage />} />
         <Route
           path="tai-khoan"
           element={

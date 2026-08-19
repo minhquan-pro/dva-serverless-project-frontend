@@ -1,20 +1,12 @@
 export interface AuthUser {
   name: string;
+  email: string;
+  avatarUrl: string | null;
   phone: string;
+  address: string;
 }
 
-export interface LoginPayload {
+export interface ProfileUpdate {
   phone: string;
-  password: string;
-}
-
-export interface RegisterPayload {
-  name: string;
-  phone: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: AuthUser;
+  address: string;
 }
