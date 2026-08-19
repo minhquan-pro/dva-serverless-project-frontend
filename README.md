@@ -40,6 +40,7 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 |---|---|---|
 | `/` | Trang chủ | Hero + món nổi bật + CTA liên hệ |
 | `/thuc-don` | Thực đơn | Lọc theo nhóm món, trình bày dạng danh sách đánh số |
+| `/thuc-don/:id` | Chi tiết món | Ảnh đặt chỗ + mô tả + món liên quan, nút "Thêm vào giỏ hàng" chưa hoạt động |
 | `/gioi-thieu` | Giới thiệu | |
 | `/lien-he` | Liên hệ | Form gửi qua Axios tới `VITE_API_URL` |
 | `/dang-nhap` | Đăng nhập | SĐT + mật khẩu |

@@ -29,11 +29,11 @@ Dùng trực tiếp qua class Tailwind: `bg-ink`, `text-red`, `border-grid`, v.v
 - Hairline rule (`h-px bg-ink` hoặc `bg-paper/35` trên nền tối) kéo dài cạnh tiêu đề section — xem `SectionHeading`.
 - Số thứ tự đỏ kiểu mục lục (`§ 01`, `§ 02`...) — prop `index` của `SectionHeading` là OPTIONAL, chỉ truyền khi nội dung thực sự có thứ tự cố định trong CÙNG một trang (hiện không còn dùng vì mỗi mục đã tách thành trang riêng qua Router — xem mục Router bên dưới). Không lạm dụng đánh số cho nội dung không có trình tự thật.
 - Chữ viền rỗng (`-webkit-text-stroke`) dùng cho từ khoá nổi bật trong hero — hiệu ứng poster hai lớp chữ đặc/rỗng.
-- Không dùng icon/emoji trang trí — thực đơn và thông tin chỉ dùng typographic, không ảnh chụp món ăn ở giai đoạn này.
+- Không dùng icon/emoji trang trí — thực đơn và thông tin chỉ dùng typographic. Danh sách thực đơn (`MenuRow`) không ảnh; riêng trang chi tiết món có khung ảnh đặt chỗ (xem mục Bố cục § Product bên dưới) — chủ shop sẽ thêm ảnh thật sau.
 
 ## Router — nhiều trang riêng biệt
 Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc trong `Layout` (`src/components/Layout.tsx` = Header + `<Outlet/>` + Footer). Mỗi trang trong `src/pages/` là 1 route:
-- `/`, `/thuc-don`, `/gioi-thieu`, `/lien-he`, `/dang-nhap`, `/dang-ky`, `/tai-khoan` (route bảo vệ qua `ProtectedRoute`, xem `AuthContext`).
+- `/`, `/thuc-don`, `/thuc-don/:id` (chi tiết món, `ProductPage.tsx`), `/gioi-thieu`, `/lien-he`, `/dang-nhap`, `/dang-ky`, `/tai-khoan` (route bảo vệ qua `ProtectedRoute`, xem `AuthContext`).
 - Vì mỗi mục nay là 1 trang riêng (không còn scroll 1 trang dài), KHÔNG dùng số thứ tự `§ 0X` xuyên suốt nhiều trang nữa — mỗi trang chỉ có 1 `SectionHeading` không cần `index`.
 - Điều hướng nội bộ dùng `<Link>`/`<NavLink>` (`react-router-dom`) hoặc `LinkButton` (`src/components/LinkButton.tsx` — giống `Button` nhưng render `<Link>`, dùng khi CTA điều hướng sang trang khác thay vì submit form).
 - Nav trong `Header` dùng `NavLink` để tô đậm trang hiện tại (nền `ink`/chữ `paper`).
@@ -41,7 +41,8 @@ Dự án dùng `react-router-dom`, route khai báo tại `src/App.tsx`, bọc tr
 ## Bố cục các section (đã áp dụng, dùng làm mẫu khi thêm section/trang mới)
 1. **Header** — dải thông tin nhỏ phía trên (giờ mở cửa), logo chữ hoa đậm (chữ "Ăn Sáng" tô đỏ) Link về `/`, nav dạng khối viền có gạch chia (`divide-x`), trạng thái đăng nhập (tên/Đăng xuất hoặc link Đăng nhập) bên phải nav.
 2. **Hero** (trang chủ) — tag viền đỏ nhỏ phía trên, tiêu đề khổng lồ 2 dòng (dòng 2 dùng chữ viền rỗng), hairline rule ngăn cách với đoạn mô tả + nút CTA điều hướng (`LinkButton`).
-3. **Menu** (`/thuc-don`) — nhóm nút lọc dạng khối viền liền nhau, danh sách món đánh số (`MenuRow`) — không phải lưới card.
+3. **Menu** (`/thuc-don`) — nhóm nút lọc dạng khối viền liền nhau, danh sách món đánh số (`MenuRow`) — không phải lưới card. Mỗi dòng là link sang `/thuc-don/:id`.
+3b. **Product** (`/thuc-don/:id`, `ProductPage.tsx`) — link "← Quay lại thực đơn" ở đầu trang dẫn về `/` (trang chủ, không phải `/thuc-don`). Bố cục 2 cột: khung ảnh đặt chỗ (`aspect-[4/3]`, viền `border-[1.5px] border-ink`, khung nét đứt `border-dashed border-grid` bên trong, icon + "Ảnh món ăn sẽ được cập nhật" — thay bằng `<img object-cover>` khi có ảnh thật) bên trái, tag danh mục + tên món + giá (đỏ) + mô tả + hairline rule + nút "Thêm vào giỏ hàng" (`disabled`, chưa hoạt động — kèm ghi chú gọi điện đặt trước qua `tel:`) bên phải. Bên dưới là section "Món liên quan" (`SectionHeading` không `index`) — lưới 3 cột (`MenuItem` cùng danh mục ưu tiên trước), mỗi thẻ có số thứ tự đỏ theo đúng vị trí trong `MENU_ITEMS`, dẫn sang trang chi tiết món đó. Món không tồn tại (`id` sai) hiển thị thông báo 404 kèm nút quay lại `/thuc-don`.
 4. **About** (`/gioi-thieu`) — 2 cột: đoạn văn bên trái, lưới 2×2 chỉ số thống kê có viền bên phải.
 5. **Contact** (`/lien-he`) — nền `bg-ink` tối, thông tin dạng label/value, input chỉ có viền dưới (underline), nút submit đỏ vuông vức.
 6. **Login/Register** (`/dang-nhap`, `/dang-ky`) — khung hẹp căn giữa (`max-w-md`), tag viền đỏ "Thành viên · Quán nhà" phía trên, `AuthTabs` (2 nút dạng khối viền liền, tab trang hiện tại tô nền `ink`) để chuyển nhanh giữa 2 route, input viền dưới (underline, `border-grid` → `focus:border-red`), `Button` full-width, link chữ chuyển đổi giữa 2 trang màu đỏ gạch chân (giữ song song với tab, không thay thế), `AuthMeta` (giờ mở cửa/SĐT) đóng khung dưới cùng.
