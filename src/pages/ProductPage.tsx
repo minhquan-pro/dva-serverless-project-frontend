@@ -1,15 +1,27 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SectionHeading } from "../components/SectionHeading";
 import { LinkButton } from "../components/LinkButton";
-import { SHOP_INFO } from "../data/shopInfo";
+import { Button } from "../components/Button";
+import { QuantityStepper } from "../components/QuantityStepper";
+import { StarRating } from "../components/StarRating";
+import { ReviewModal } from "../components/ReviewModal";
+import { useCart } from "../context/CartContext";
 import { MENU_CATEGORIES, MENU_ITEMS } from "../data/menu";
+import { REVIEWS_BY_PRODUCT } from "../data/reviews";
 import { formatPriceVND } from "../utils/format";
+import type { Review } from "../types/review";
 
 const RELATED_COUNT = 3;
 
 export function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const item = MENU_ITEMS.find((menuItem) => menuItem.id === id);
+
+  const { addItem, openDrawer } = useCart();
+  const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState<Review[]>(() => (id ? (REVIEWS_BY_PRODUCT[id] ?? []) : []));
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   if (!item) {
     return (
@@ -35,6 +47,19 @@ export function ProductPage() {
     ...others.filter(({ menuItem }) => menuItem.category === item.category),
     ...others.filter(({ menuItem }) => menuItem.category !== item.category),
   ].slice(0, RELATED_COUNT);
+
+  const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : null;
+
+  const product = item;
+
+  function handleAddToCart() {
+    addItem({ id: product.id, name: product.name, price: product.price }, quantity);
+    openDrawer();
+  }
+
+  function handleReviewSubmitted(review: Review) {
+    setReviews((current) => [review, ...current]);
+  }
 
   return (
     <>
@@ -67,39 +92,62 @@ export function ProductPage() {
               </span>
               <h1 className="mb-4 text-4xl sm:text-[2.6rem]">{item.name}</h1>
               <div className="mb-5.5 text-2xl font-extrabold tabular-nums text-red">{formatPriceVND(item.price)}</div>
-              <p className="mb-7.5 max-w-[52ch] font-medium leading-relaxed text-ink/68">{item.description}</p>
+              <p className="mb-5 max-w-[52ch] font-medium leading-relaxed text-ink/68">{item.description}</p>
+
+              <div className="mb-6.5 flex items-center gap-2 text-sm font-bold text-ink/60">
+                {averageRating !== null ? (
+                  <>
+                    <StarRating value={averageRating} />
+                    <span className="tabular-nums">
+                      {averageRating.toFixed(1)} · {reviews.length} đánh giá
+                    </span>
+                  </>
+                ) : (
+                  <span>Chưa có đánh giá nào</span>
+                )}
+              </div>
 
               <div className="mb-6.5 h-[1.5px] bg-ink" />
 
-              <div className="flex flex-col items-start gap-2.5">
-                <button
-                  type="button"
-                  disabled
-                  className="inline-flex cursor-not-allowed items-center gap-2.5 border-[1.5px] border-ink bg-paper-deep px-7 py-3.5 font-display text-sm font-extrabold uppercase tracking-wide text-ink/40"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" className="h-4.5 w-4.5">
-                    <circle cx="9" cy="20" r="1.4" stroke="currentColor" strokeWidth="1.6" />
-                    <circle cx="18" cy="20" r="1.4" stroke="currentColor" strokeWidth="1.6" />
-                    <path
-                      d="M2 3h2l2.4 12.2a2 2 0 002 1.8h8.6a2 2 0 002-1.6L21 8H6"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                    />
-                  </svg>
+              <div className="flex flex-wrap items-center gap-4">
+                <QuantityStepper value={quantity} onChange={setQuantity} />
+                <Button type="button" onClick={handleAddToCart}>
                   Thêm vào giỏ hàng
-                </button>
-                <p className="text-sm font-semibold text-ink/60">
-                  Tính năng đặt món online sắp ra mắt — gọi{" "}
-                  <a
-                    href={`tel:${SHOP_INFO.phone.replace(/\s+/g, "")}`}
-                    className="font-extrabold text-red underline underline-offset-2"
-                  >
-                    {SHOP_INFO.phone}
-                  </a>{" "}
-                  để đặt trước.
-                </p>
+                </Button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t-[3px] border-ink px-6 py-16 sm:px-7 sm:py-20">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeading
+            title="Đánh giá món ăn"
+            description={
+              reviews.length > 0
+                ? `${reviews.length} lượt đánh giá cho món ${item.name.toLowerCase()}.`
+                : `Chưa có đánh giá nào cho món ${item.name.toLowerCase()} — hãy là người đầu tiên.`
+            }
+          />
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {reviews.map((review) => (
+              <div key={review.id} className="flex flex-col gap-2.5 border-[1.5px] border-ink p-4.5">
+                <StarRating value={review.rating} size="sm" />
+                <span className="font-display text-sm font-extrabold text-ink">{review.author}</span>
+                <p className="flex-1 text-sm font-medium text-ink/65">{review.text}</p>
+                <span className="text-xs font-bold uppercase tracking-wide text-ink/40">{review.date}</span>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => setIsReviewModalOpen(true)}
+              className="flex flex-col items-center justify-center gap-2 border-[1.5px] border-dashed border-grid p-4.5 text-center font-display text-xs font-extrabold uppercase tracking-wide text-ink/50 transition-colors hover:border-ink hover:text-ink"
+            >
+              <span className="text-2xl font-normal leading-none">+</span>
+              Viết đánh giá
+            </button>
           </div>
         </div>
       </section>
@@ -128,6 +176,14 @@ export function ProductPage() {
           </div>
         </div>
       </section>
+
+      <ReviewModal
+        open={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        productId={item.id}
+        productName={item.name}
+        onSubmitted={handleReviewSubmitted}
+      />
     </>
   );
 }

@@ -40,7 +40,8 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 |---|---|---|
 | `/` | Trang chủ | Hero + món nổi bật + CTA liên hệ |
 | `/thuc-don` | Thực đơn | Lọc theo nhóm món, trình bày dạng danh sách đánh số |
-| `/thuc-don/:id` | Chi tiết món | Ảnh đặt chỗ + mô tả + món liên quan, nút "Thêm vào giỏ hàng" chưa hoạt động |
+| `/thuc-don/:id` | Chi tiết món | Ảnh đặt chỗ + mô tả + đánh giá món ăn + món liên quan, nút "Thêm vào giỏ hàng" hoạt động thật |
+| `/dat-ban-truoc` | Đặt bàn trước | Chọn ngày/khung giờ/số người qua cửa sổ nổi |
 | `/gioi-thieu` | Giới thiệu | |
 | `/lien-he` | Liên hệ | Form gửi qua Axios tới `VITE_API_URL` |
 | `/dang-nhap` | Đăng nhập | Chỉ đăng nhập bằng Google (giả lập UI, chưa nối Google Identity Services thật) |
@@ -50,6 +51,8 @@ Chi tiết quy ước code và quy trình làm việc xem tại [`CLAUDE.md`](./
 
 Nhiều trang riêng biệt dùng React Router. Giao diện theo hệ thống thiết kế **"Ấn Bản Sáng"** (poster/báo in, một họ chữ Archivo, hai màu chủ đạo đen-đỏ trên nền giấy — chi tiết tại `.claude/skills/ui-reference/SKILL.md`).
 
-Đăng nhập chỉ bằng Google — không còn form SĐT/mật khẩu, không có trang đăng ký. **Chưa có Google OAuth Client ID** — `src/services/authService.ts` (`loginWithGoogleRequest`) hiện giả lập trả về một hồ sơ mẫu ngay lập tức để dựng luồng UI trước; thay bằng tích hợp Google Identity Services thật khi có Client ID. Trạng thái đăng nhập lưu ở `AuthContext` (React Context + `localStorage`). Tài khoản có `name`/`email`/`avatarUrl` (từ Google) + `phone`/`address` (người dùng tự nhập, lưu qua nút "Lưu thông tin" ở trang Tài khoản) — chuẩn bị cho tính năng đặt món online sau này, chưa có giỏ hàng/đơn hàng.
+Đăng nhập chỉ bằng Google — không còn form SĐT/mật khẩu, không có trang đăng ký. **Chưa có Google OAuth Client ID** — `src/services/authService.ts` (`loginWithGoogleRequest`) hiện giả lập trả về một hồ sơ mẫu ngay lập tức để dựng luồng UI trước; thay bằng tích hợp Google Identity Services thật khi có Client ID. Trạng thái đăng nhập lưu ở `AuthContext` (React Context + `localStorage`). Tài khoản có `name`/`email`/`avatarUrl` (từ Google) + `phone`/`address` (người dùng tự nhập, lưu qua nút "Lưu thông tin" ở trang Tài khoản).
+
+Giỏ hàng + đặt món online, đánh giá món ăn và đặt bàn trước theo khung giờ đã hoạt động ở phần frontend (state qua `CartContext`, ngăn kéo `CartDrawer`, các modal `ReviewModal`/`ReservationModal`) — xem chi tiết ở `CLAUDE.md`. Backend/DB cho các tính năng này (`/orders`, `/reviews`, `/reservations`) do chủ shop tự xây; cho tới lúc đó, các thao tác gửi đơn/đánh giá/đặt bàn sẽ hiển thị trạng thái lỗi (đúng như thiết kế).
 
 Tên món/giá và thông tin quán trong `src/data/` đang là dữ liệu mẫu — cập nhật tên món/giá và thông tin quán thật (`src/data/menu.ts`, `src/data/shopInfo.ts`) khi sẵn sàng.
